@@ -1,17 +1,11 @@
-package com.example.myapplication
+package com.example.test2
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.test2.MainViewModel
-import com.example.test2.User
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.myapplication.R
 
 class SecondActivity : AppCompatActivity() {
     private lateinit var backButton: Button
