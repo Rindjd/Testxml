@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -29,23 +29,13 @@ class MainViewModel : ViewModel() {
 
             _sum.value = number1 + number2
 
-            val loadedData = loadDataFromUrl()
+            val loadedData = userRepository.fetchDataFromUrl()
 
             _data.value = loadedData
 
             _loading.value = false
             _navigateToSecondScreen.value = true
         }
-    }
-
-    private fun loadDataFromUrl(): List<User> {
-        // Здесь выполняется загрузка данных по ссылке и обработка полученных данных
-        // В данном примере возвращаем тестовые данные
-        return listOf(
-            User("Алексей", 18),
-            User("Тимур", 20),
-            User("Дмитрий", 21)
-        )
     }
 }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 
 class SecondActivity : AppCompatActivity() {
@@ -13,7 +14,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var dataTextView: TextView
     private lateinit var ageTextView: TextView
 
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +25,11 @@ class SecondActivity : AppCompatActivity() {
         dataTextView = findViewById(R.id.dataTextView)
         ageTextView = findViewById(R.id.ageTextView)
 
-        backButton.setOnClickListener {
-            finish()
-        }
 
-        val number1 = intent.getIntExtra("number1", 0)
-        val number2 = intent.getIntExtra("number2", 0)
+        val userRepository = UserRepository()
+        val viewModelFactory = MainViewModelFactory(userRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
 
         viewModel.sum.observe(this) { sum ->
             sumTextView.text = "Сумма чисел: $sum"
@@ -42,10 +42,13 @@ class SecondActivity : AppCompatActivity() {
             ageTextView.text = ages.joinToString("\n")
         }
 
+        backButton.setOnClickListener {
+            finish()
+        }
 
+        val number1 = intent.getIntExtra("number1", 0)
+        val number2 = intent.getIntExtra("number2", 0)
 
         viewModel.fetchData(number1, number2)
     }
 }
-
-

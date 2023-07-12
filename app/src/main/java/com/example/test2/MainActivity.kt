@@ -8,18 +8,25 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
     private lateinit var number1EditText: EditText
     private lateinit var number2EditText: EditText
     private lateinit var nextButton: Button
 
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var viewModelFactory: MainViewModelFactory
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        val userRepository = UserRepository()
+        viewModelFactory = MainViewModelFactory(userRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         number1EditText = findViewById(R.id.number1EditText)
         number2EditText = findViewById(R.id.number2EditText)
